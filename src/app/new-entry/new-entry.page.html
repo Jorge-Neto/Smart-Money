@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="arrow-back-circle-outline" (click)="goBack()"></ion-icon>
+    <ion-title>Novo lançamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<p>
+  <input type="text" name="value" [(ngModel)]="entry.value">
+</p>
+
+<p>
+  <select name="category" [(ngModel)]="entry.category">
+    <option value="1">Alimentação</option>
+    <option value="2">Lazer</option>
+  </select>
+</p>
+
+<p>
+  <button type="submit" (click)="submitForm()">Adicionar</button>
+
+  <button (click)="goBack()">Cancelar</button>
+</p>
+</ion-content>

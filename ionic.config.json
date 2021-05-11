@@ -1,0 +1,7 @@
+{
+  "name": "smartMoney",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
