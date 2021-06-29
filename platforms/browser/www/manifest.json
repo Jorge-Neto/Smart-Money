@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Smart Money",
+  "short_name": "Smart Money",
+  "version": "com.company.smartmoney",
+  "description": "Aplicativo desenvolvido dentro do curso Dev Samurai.",
+  "author": "Jorge de Oliveira",
+  "icons": [],
+  "start_url": "index.html"
+}

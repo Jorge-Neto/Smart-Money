@@ -25,6 +25,12 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.company.smartmoney"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "com.company.smartmoney"
+    },
+    "uk.co.workingedge.cordova.plugin.sqliteporter": {
+      "PACKAGE_NAME": "com.company.smartmoney"
     }
   },
   "dependent_plugins": {}

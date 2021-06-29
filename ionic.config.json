@@ -1,7 +1,8 @@
 {
   "name": "smartMoney",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
+import { SQLite, SQLiteObject  } from '@ionic-native/sqlite/ngx';
+
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -8,15 +11,32 @@ import { NavController } from '@ionic/angular';
 })
 export class HomePage {
 
-  teste = 1;
-  constructor(private navCtrl: NavController) { }
+  constructor(
+    private navCtrl: NavController, 
+    public sqlite: SQLite) { 
+  }
 
   addEntry() {
-    console.log("Olá");
-
-    this.teste += 1;
-
     this.navCtrl.navigateForward('/new-entry');
+  }
+
+  testeDB() {
+    console.log('Início do teste DB');
+
+    this.sqlite.create({
+      name: 'data.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+    
+    
+        db.executeSql('create table danceMoves(name VARCHAR(32))', [])
+          .then(() => console.log('BD Executado'))
+          .catch(e => console.log(e));
+    
+    
+      })
+      .catch(e => console.log(e));
   }
 
 }
