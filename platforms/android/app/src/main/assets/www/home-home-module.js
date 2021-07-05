@@ -46,7 +46,7 @@ HomePageRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Smart Money\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <div class=\"container\">\n    <h1>Saldo: R$500,00</h1>\n    <button (click)=\"addEntry()\">Adicionar</button>\n\n    <h3>Categorias</h3>\n    <ul>\n      <li>Alimentação: R$575,00</li>\n      <li>Combustível: R$50,00</li>\n      <li>Aluguel: R$235,00</li>\n      <li>Água: R$15,00</li>\n      <li>Luz: R$94,62</li>\n    </ul>\n\n    <h3>Últimos lançamentos</h3>\n    <ul>\n      <li>Supermercado Santos: R$25,00</li>\n      <li>Supermercado Condor: R$530,00</li>\n    </ul>\n  </div>\n</ion-content>\n\n<ion-content>\n\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Smart Money\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <div class=\"container\">\n    <h1>Saldo: R$500,00</h1>\n    <button (click)=\"addEntry()\">Adicionar</button>\n    <button (click)=\"testeDB()\">teste do BD</button>\n\n    <h3>Categorias</h3>\n    <ul>\n      <li>Alimentação: R$575,00</li>\n      <li>Combustível: R$50,00</li>\n      <li>Aluguel: R$235,00</li>\n      <li>Água: R$15,00</li>\n      <li>Luz: R$94,62</li>\n    </ul>\n\n    <h3>Últimos lançamentos</h3>\n    <ul>\n      <li>Supermercado Santos: R$25,00</li>\n      <li>Supermercado Condor: R$530,00</li>\n    </ul>\n  </div>\n</ion-content>");
 
 /***/ }),
 
@@ -120,24 +120,58 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_page_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./home.page.scss */ "f6od");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
+/* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "9lwF");
+
 
 
 
 
 
 let HomePage = class HomePage {
-    constructor(navCtrl) {
+    constructor(navCtrl, sqlite) {
         this.navCtrl = navCtrl;
-        this.teste = 1;
+        this.sqlite = sqlite;
     }
     addEntry() {
-        console.log("Olá");
-        this.teste += 1;
+        console.log('teste Nav');
         this.navCtrl.navigateForward('/new-entry');
+    }
+    testeDB() {
+        console.log('Início do teste DB');
+        this.sqlite.create({
+            name: 'data.db',
+            location: 'default'
+        })
+            .then((db) => {
+            db.sqlBatch([
+                'CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY AUTOINCREMENT, amount DECIMAL, description TEXT)'
+            ])
+                .then(() => {
+                const sqlInsert = 'INSERT INTO entries (amount, description) VALUES (?, ?)';
+                const dataInsert = [4.3, 'Teste'];
+                //Insert
+                db.executeSql(sqlInsert, dataInsert)
+                    .then(() => {
+                    console.log('Valores inseridos');
+                    const sql = 'SELECT amount, description FROM entries;';
+                    const data = [];
+                    db.executeSql(sql, data)
+                        .then((res) => {
+                        console.log(res.rows.length);
+                        for (let i = 0; i < res.rows.length; i++) {
+                            console.log(JSON.stringify(res.rows.item(i)));
+                        }
+                    });
+                }).catch((err) => console.log('Erro ao inserir valores', err));
+            })
+                .catch(e => console.log('Erro ao executar o comando', JSON.stringify(e)));
+        })
+            .catch(e => console.log(e));
     }
 };
 HomePage.ctorParameters = () => [
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["NavController"] }
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["NavController"] },
+    { type: _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_5__["SQLite"] }
 ];
 HomePage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({

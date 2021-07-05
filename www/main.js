@@ -170,7 +170,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _new_entry_new_entry_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./new-entry/new-entry.module */ "xAXW");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "9lwF");
 
-// import { SQLite } from '@ionic-native/sqlite/ngx';
 
 
 
@@ -464,12 +463,12 @@ let NewEntryPage = class NewEntryPage {
     ngOnInit() {
     }
     submitForm() {
-        console.log("submit");
+        console.log('submit');
         console.log(this.entry);
         this.goBack();
     }
     goBack() {
-        console.log("Go Back");
+        console.log('Go Back');
         this.navCtrl.navigateBack('/home');
     }
 };

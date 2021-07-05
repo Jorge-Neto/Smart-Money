@@ -21,7 +21,7 @@
     "@angular/router": "~11.2.0",
     "@capacitor/core": "2.4.7",
     "@ionic-native/core": "^5.33.0",
-    "@ionic-native/sqlite": "^5.33.0",
+    "@ionic-native/sqlite": "^5.34.0",
     "@ionic-native/sqlite-porter": "^5.33.0",
     "@ionic/angular": "^5.5.2",
     "cordova-sqlite-storage": "^6.0.0",
