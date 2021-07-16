@@ -10,9 +10,14 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 })
 export class HomePage {
 
+  entries = [];
+
   constructor(
     private navCtrl: NavController,
-    private sqlite: SQLite) {
+    public sqlite: SQLite) {
+  }
+  ionViewDidEnter() {
+    this.loadData();
   }
 
   addEntry() {
@@ -20,7 +25,8 @@ export class HomePage {
     this.navCtrl.navigateForward('/new-entry');
   }
 
-  testeDB() {
+  loadData() {
+    this.entries = [];
     this.sqlite.create({
       name: 'data.db',
       location: 'default'
@@ -28,26 +34,22 @@ export class HomePage {
       .then((db: SQLiteObject) => {
         // db.sqlBatch([
         //   'DROP TABLE entries'
-        // ])
-        //   .catch(e => console.log('Erro ao criar tabela', JSON.stringify(e)));
-        this.createTable(db)
-          .then(() => {
+        // ]);
+        // console.log('bd removido');
 
-            this.selectFunction(db)
-              .then((values: any) => {
-                for (let i = 0; i < values.rows.length; i++) {
-                  console.log(JSON.stringify(values.rows.item(i)));
-                }
+        const sql = 'SELECT * FROM entries;';
+        const data = [];
 
-                this.balance(db)
-                  .then((value: any) => {
-                    if (value.rows.length > 0) {
-                      const item = value.rows.item(0);
-                      console.log(JSON.stringify(item.balance));
-                    }
-                  });
-              });
-          });
+        return db.executeSql(sql, data)
+          .then((values: any) => {
+            let dado;
+            for (let i = 0; i < values.rows.length; i++) {
+              dado = values.rows.item(i);
+              console.log(JSON.stringify(dado));
+              this.entries.push(dado);
+            }
+          })
+          .catch(e => console.log('Erro ao realizar o Select', JSON.stringify(e)));
       })
       .catch(e => console.log(e));
   }
@@ -84,7 +86,7 @@ export class HomePage {
   }
 
   selectFunction(db) {
-    const sql = 'SELECT id, amount, description FROM entries;';
+    const sql = 'SELECT * FROM entries;';
     const data = [];
 
     return db.executeSql(sql, data)

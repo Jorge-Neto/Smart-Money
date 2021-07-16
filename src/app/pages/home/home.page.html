@@ -9,8 +9,7 @@
 <ion-content>
   <div class="container">
     <h1>Saldo: R$500,00</h1>
-    <button (click)="addEntry()">Adicionar</button>
-    <button (click)="testeDB()">teste do BD</button>
+    <ion-button color="dark" (click)="addEntry()">Adicionar</ion-button>
 
     <h3>Categorias</h3>
     <ul>
@@ -22,9 +21,10 @@
     </ul>
 
     <h3>Últimos lançamentos</h3>
-    <ul>
-      <li>Supermercado Santos: R$25,00</li>
-      <li>Supermercado Condor: R$530,00</li>
-    </ul>
+    <ol>
+      <li *ngFor="let entry of entries">
+        {{ entry.description }}: {{ entry.amount | currency }}
+      </li>
+    </ol>
   </div>
 </ion-content>

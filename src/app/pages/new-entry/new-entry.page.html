@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button (click)="goBack()">
+      <ion-icon slot="start" name="star"></ion-icon>
+    </ion-back-button>
+    <ion-title>Novo lançamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="entryForm">
+    <ion-list>
+
+      <ion-item>
+        <ion-label position="floating">Valor</ion-label>
+        <ion-input type="number" name="amount" formControlName="amount" [(ngModel)]="entry.amount">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="error" no-lines
+        *ngIf="entryForm.controls.amount.hasError('required') && entryForm.controls.amount.touched">
+        <span>O campo valor é obrigatório</span>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Categoria</ion-label>
+        <ion-select interface="popover" name="categoryId" formControlName="categoryId" [(ngModel)]="entry.categoryId">
+          <ion-select-option value=""></ion-select-option>
+          <ion-select-option value="Lazer">Lazer</ion-select-option>
+          <ion-select-option value="Alimentação">Alimentação</ion-select-option>
+          <ion-select-option value="Casa">Casa</ion-select-option>
+          <ion-select-option value="Combustível">Combustível</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="error" no-lines
+        *ngIf="entryForm.controls.categoryId.hasError('required') && entryForm.controls.categoryId.touched">
+        <span>O campo categoria é obrigatório</span>
+      </ion-item>
+
+      <ion-item>
+        <ion-button [disabled]="!entryForm.valid" (click)="submitForm()">Adicionar</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </form>
+</ion-content>

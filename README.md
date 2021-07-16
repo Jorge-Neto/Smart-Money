@@ -3,6 +3,8 @@ Aplicativo criado no curso de Primeiro App da Dev Samurai
 
 Para rodar o programa, você deve conectar o seu dispositivo android no modo "Depuração USB", e executar os seguintes comandos dentro da pasta do programa:
 
+npm install
+
 sdkmanager --licenses
 
 ionic build
