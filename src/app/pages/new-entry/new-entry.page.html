@@ -25,11 +25,10 @@
       <ion-item>
         <ion-label>Categoria</ion-label>
         <ion-select interface="popover" name="categoryId" formControlName="categoryId" [(ngModel)]="entry.categoryId">
-          <ion-select-option value=""></ion-select-option>
-          <ion-select-option value="Lazer">Lazer</ion-select-option>
-          <ion-select-option value="Alimentação">Alimentação</ion-select-option>
-          <ion-select-option value="Casa">Casa</ion-select-option>
-          <ion-select-option value="Combustível">Combustível</ion-select-option>
+          <ion-select-option 
+          *ngFor="let category of categories"
+          [value]="category.id"
+          required> {{ category.name }} </ion-select-option>
         </ion-select>
       </ion-item>
 

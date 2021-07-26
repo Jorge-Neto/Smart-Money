@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavController, NavParams } from '@ionic/angular';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { NavController } from '@ionic/angular';
+import { AccountService } from './../../services/account/account.service';
+import { CategoryDAOService } from 'src/app/services/category-dao/category-dao.service';
 
 @Component({
   selector: 'app-new-entry',
@@ -10,6 +11,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 })
 export class NewEntryPage implements OnInit {
 
+  categories: [];
   entryForm: FormGroup;
 
   entry = {
@@ -20,7 +22,8 @@ export class NewEntryPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     public builder: FormBuilder,
-    public sqlite: SQLite
+    public accountService: AccountService,
+    public categoryDAO: CategoryDAOService,
   ) {
     this.entryForm = builder.group({
       amount: new FormControl('', Validators.compose([Validators.required])),
@@ -29,6 +32,10 @@ export class NewEntryPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+    this.loadData();
   }
 
   submitForm() {
@@ -43,23 +50,16 @@ export class NewEntryPage implements OnInit {
   }
 
   insertBD() {
-    console.log('Uso do BD');
-
-    this.sqlite.create({
-      name: 'data.db',
-      location: 'default'
-    })
-    .then((db: SQLiteObject) => {
-      db.sqlBatch([
-        'CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY AUTOINCREMENT, amount DECIMAL, description TEXT)'
-      ])
+    this.accountService.
+    addEntry(this.entry.amount, this.entry.categoryId)
       .then(() => {
-        const sql = 'INSERT INTO entries (amount, description) VALUES (?, ?)';
-        const data = [this.entry.amount, this.entry.categoryId];
-        //Insert
-        return db.executeSql(sql, data)
-        .then(() => console.log('Insert realizado'));
-      }).catch((err) => console.log(err));
-    }).catch((err) => console.log(err));
+        console.log('registro inserido');
+      });
+  }
+
+  loadData() {
+    this.categoryDAO
+      .getAll()
+        .then((dado: any) => this.categories = dado);
   }
 }
